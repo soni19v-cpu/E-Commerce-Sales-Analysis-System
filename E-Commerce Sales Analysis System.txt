@@ -1,0 +1,334 @@
+
+
+Setting environment for using XAMPP for Windows.
+Anand@DESKTOP-R4I6UJC c:\xampp
+# mysql -u root
+Welcome to the MariaDB monitor.  Commands end with ; or \g.
+Your MariaDB connection id is 8
+Server version: 10.4.32-MariaDB mariadb.org binary distribution
+
+Copyright (c) 2000, 2018, Oracle, MariaDB Corporation Ab and others.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+
+# Create Database
+MariaDB [(none)]> CREATE DATABASE ecommerce_db;
+Query OK, 1 row affected (0.001 sec)
+
+
+# Use Database
+MariaDB [(none)]> USE ecommerce_db;
+Database changed
+
+
+# Create table for customers
+MariaDB [ecommerce_db]> CREATE TABLE customers (
+    ->     customer_id INT PRIMARY KEY,
+    ->     name VARCHAR(50),
+    ->     email VARCHAR(50),
+    ->     city VARCHAR(50)
+    -> );
+Query OK, 0 rows affected (0.041 sec)
+
+
+# Create table for products 
+MariaDB [ecommerce_db]> CREATE TABLE products (
+    ->     product_id INT PRIMARY KEY,
+    ->     product_name VARCHAR(50),
+    ->     price DECIMAL(10,2)
+    -> );
+Query OK, 0 rows affected (0.048 sec)
+
+
+# Create table for order
+MariaDB [ecommerce_db]> CREATE TABLE orders (
+    ->     order_id INT PRIMARY KEY,
+    ->     customer_id INT,
+    ->     order_date DATE,
+    ->     FOREIGN KEY (customer_id) REFERENCES customers(customer_id)
+    -> );
+Query OK, 0 rows affected (0.066 sec)
+
+
+# Create table for order_details
+MariaDB [ecommerce_db]> CREATE TABLE order_details (
+    ->     order_id INT,
+    ->     product_id INT,
+    ->     quantity INT,
+    ->     FOREIGN KEY (order_id) REFERENCES orders(order_id),
+    ->     FOREIGN KEY (product_id) REFERENCES products(product_id)
+    -> );
+Query OK, 0 rows affected (0.067 sec)
+
+
+# Customers Details
+MariaDB [ecommerce_db]> INSERT INTO customers VALUES
+    -> (1, 'Rahul', 'rahul@gmail.com', 'Mumbai'),
+    -> (2, 'Priya', 'priya@gmail.com', 'Delhi'),
+    -> (3, 'Amit', 'amit@gmail.com', 'Pune'),
+    -> (4, 'Sneha', 'sneha@gmail.com', 'Bangalore'),
+    -> (5, 'Arjun', 'arjun@gmail.com', 'Chennai'),
+    -> (6, 'Neha', 'neha@gmail.com', 'Hyderabad'),
+    -> (7, 'Rohit', 'rohit@gmail.com', 'Kolkata'),
+    -> (8, 'Kavya', 'kavya@gmail.com', 'Ahmedabad'),
+    -> (9, 'Vikas', 'vikas@gmail.com', 'Jaipur'),
+    -> (10, 'Anjali', 'anjali@gmail.com', 'Lucknow');
+Query OK, 10 rows affected (0.041 sec)
+Records: 10  Duplicates: 0  Warnings: 0
+
+
+#  Products Details
+MariaDB [ecommerce_db]> INSERT INTO products VALUES
+    -> (101, 'Laptop', 60000),
+    -> (102, 'Phone', 20000),
+    -> (103, 'Headphones', 2000),
+    -> (104, 'Tablet', 30000),
+    -> (105, 'Smartwatch', 5000),
+    -> (106, 'Keyboard', 1500),
+    -> (107, 'Mouse', 800),
+    -> (108, 'Monitor', 12000),
+    -> (109, 'Printer', 10000),
+    -> (110, 'Speaker', 3000);
+Query OK, 10 rows affected (0.042 sec)
+Records: 10  Duplicates: 0  Warnings: 0
+
+
+# Orders 
+MariaDB [ecommerce_db]> INSERT INTO orders VALUES
+    -> (1001, 1, '2024-01-10'),
+    -> (1002, 2, '2024-01-12'),
+    -> (1003, 3, '2024-01-15'),
+    -> (1004, 4, '2024-01-18'),
+    -> (1005, 5, '2024-02-02'),
+    -> (1006, 6, '2024-02-05'),
+    -> (1007, 7, '2024-02-10'),
+    -> (1008, 8, '2024-02-12'),
+    -> (1009, 9, '2024-02-15'),
+    -> (1010, 10, '2024-02-18'),
+    -> (1011, 1, '2024-03-01'),
+    -> (1012, 2, '2024-03-05'),
+    -> (1013, 3, '2024-03-10'),
+    -> (1014, 4, '2024-03-15'),
+    -> (1015, 5, '2024-03-20');
+Query OK, 15 rows affected (0.009 sec)
+Records: 15  Duplicates: 0  Warnings: 0
+
+
+# Order Details
+MariaDB [ecommerce_db]> INSERT INTO order_details VALUES
+    -> (1001, 101, 1),
+    -> (1001, 103, 2),
+    -> (1002, 102, 1),
+    -> (1003, 104, 1),
+    -> (1004, 105, 2),
+    -> (1005, 106, 3),
+    -> (1006, 107, 2),
+    -> (1007, 108, 1),
+    -> (1008, 109, 1),
+    -> (1009, 110, 2),
+    -> (1010, 101, 1),
+    -> (1011, 102, 2),
+    -> (1012, 103, 3),
+    -> (1013, 104, 1),
+    -> (1014, 105, 2),
+    -> (1015, 106, 1),
+    -> (1015, 107, 2),
+    -> (1012, 108, 1),
+    -> (1013, 109, 1),
+    -> (1014, 110, 2);
+Query OK, 20 rows affected (0.042 sec)
+Records: 20  Duplicates: 0  Warnings: 0
+
+
+# Show Table
+MariaDB [ecommerce_db]> select * from customers;      select * from products;   select * from orders;   select * from order_details;
++-------------+--------+------------------+-----------+
+| customer_id | name   | email            | city      |
++-------------+--------+------------------+-----------+
+|           1 | Rahul  | rahul@gmail.com  | Mumbai    |
+|           2 | Priya  | priya@gmail.com  | Delhi     |
+|           3 | Amit   | amit@gmail.com   | Pune      |
+|           4 | Sneha  | sneha@gmail.com  | Bangalore |
+|           5 | Arjun  | arjun@gmail.com  | Chennai   |
+|           6 | Neha   | neha@gmail.com   | Hyderabad |
+|           7 | Rohit  | rohit@gmail.com  | Kolkata   |
+|           8 | Kavya  | kavya@gmail.com  | Ahmedabad |
+|           9 | Vikas  | vikas@gmail.com  | Jaipur    |
+|          10 | Anjali | anjali@gmail.com | Lucknow   |
++-------------+--------+------------------+-----------+
+10 rows in set (0.000 sec)
+
++------------+--------------+----------+
+| product_id | product_name | price    |
++------------+--------------+----------+
+|        101 | Laptop       | 60000.00 |
+|        102 | Phone        | 20000.00 |
+|        103 | Headphones   |  2000.00 |
+|        104 | Tablet       | 30000.00 |
+|        105 | Smartwatch   |  5000.00 |
+|        106 | Keyboard     |  1500.00 |
+|        107 | Mouse        |   800.00 |
+|        108 | Monitor      | 12000.00 |
+|        109 | Printer      | 10000.00 |
+|        110 | Speaker      |  3000.00 |
++------------+--------------+----------+
+10 rows in set (0.000 sec)
+
++----------+-------------+------------+
+| order_id | customer_id | order_date |
++----------+-------------+------------+
+|     1001 |           1 | 2024-01-10 |
+|     1002 |           2 | 2024-01-12 |
+|     1003 |           3 | 2024-01-15 |
+|     1004 |           4 | 2024-01-18 |
+|     1005 |           5 | 2024-02-02 |
+|     1006 |           6 | 2024-02-05 |
+|     1007 |           7 | 2024-02-10 |
+|     1008 |           8 | 2024-02-12 |
+|     1009 |           9 | 2024-02-15 |
+|     1010 |          10 | 2024-02-18 |
+|     1011 |           1 | 2024-03-01 |
+|     1012 |           2 | 2024-03-05 |
+|     1013 |           3 | 2024-03-10 |
+|     1014 |           4 | 2024-03-15 |
+|     1015 |           5 | 2024-03-20 |
++----------+-------------+------------+
+15 rows in set (0.000 sec)
+
++----------+------------+----------+
+| order_id | product_id | quantity |
++----------+------------+----------+
+|     1001 |        101 |        1 |
+|     1001 |        103 |        2 |
+|     1002 |        102 |        1 |
+|     1003 |        104 |        1 |
+|     1004 |        105 |        2 |
+|     1005 |        106 |        3 |
+|     1006 |        107 |        2 |
+|     1007 |        108 |        1 |
+|     1008 |        109 |        1 |
+|     1009 |        110 |        2 |
+|     1010 |        101 |        1 |
+|     1011 |        102 |        2 |
+|     1012 |        103 |        3 |
+|     1013 |        104 |        1 |
+|     1014 |        105 |        2 |
+|     1015 |        106 |        1 |
+|     1015 |        107 |        2 |
+|     1012 |        108 |        1 |
+|     1013 |        109 |        1 |
+|     1014 |        110 |        2 |
++----------+------------+----------+
+20 rows in set (0.000 sec)
+
+# Find Top 3 Products
+MariaDB [ecommerce_db]> SELECT p.product_name, SUM(od.quantity) AS total_sold
+    -> FROM order_details od
+    -> JOIN products p ON od.product_id = p.product_id
+    -> GROUP BY p.product_name
+    -> ORDER BY total_sold DESC
+    -> LIMIT 3;
++--------------+------------+
+| product_name | total_sold |
++--------------+------------+
+| Headphones   |          5 |
+| Speaker      |          4 |
+| Mouse        |          4 |
++--------------+------------+
+3 rows in set (0.001 sec)
+
+
+# Find City-wise Revenue
+MariaDB [ecommerce_db]> SELECT c.city, SUM(p.price * od.quantity) AS revenue
+    -> FROM customers c
+    -> JOIN orders o ON c.customer_id = o.customer_id
+    -> JOIN order_details od ON o.order_id = od.order_id
+    -> JOIN products p ON od.product_id = p.product_id
+    -> GROUP BY c.city;
++-----------+-----------+
+| city      | revenue   |
++-----------+-----------+
+| Ahmedabad |  10000.00 |
+| Bangalore |  26000.00 |
+| Chennai   |   7600.00 |
+| Delhi     |  38000.00 |
+| Hyderabad |   1600.00 |
+| Jaipur    |   6000.00 |
+| Kolkata   |  12000.00 |
+| Lucknow   |  60000.00 |
+| Mumbai    | 104000.00 |
+| Pune      |  70000.00 |
++-----------+-----------+
+10 rows in set (0.001 sec)
+
+
+# What is the Monthly Sales Trend.
+MariaDB [ecommerce_db]> SELECT MONTH(o.order_date) AS month,
+    ->        SUM(p.price * od.quantity) AS total_sales
+    -> FROM orders o
+    -> JOIN order_details od ON o.order_id = od.order_id
+    -> JOIN products p ON od.product_id = p.product_id
+    -> GROUP BY MONTH(o.order_date)
+    -> ORDER BY month;
++-------+-------------+
+| month | total_sales |
++-------+-------------+
+|     1 |   124000.00 |
+|     2 |    94100.00 |
+|     3 |   117100.00 |
++-------+-------------+
+3 rows in set (0.001 sec)
+
+
+#  Find Total Sales
+MariaDB [ecommerce_db]> SELECT SUM(p.price * od.quantity) AS total_sales
+    -> FROM order_details od
+    -> JOIN products p ON od.product_id = p.product_id;
++-------------+
+| total_sales |
++-------------+
+|   335200.00 |
++-------------+
+1 row in set (0.000 sec)
+
+
+# Top Selling Product
+MariaDB [ecommerce_db]> SELECT p.product_name, SUM(od.quantity) AS total_quantity
+    -> FROM order_details od
+    -> JOIN products p ON od.product_id = p.product_id
+    -> GROUP BY p.product_name
+    -> ORDER BY total_quantity DESC
+    -> LIMIT 1;
++--------------+----------------+
+| product_name | total_quantity |
++--------------+----------------+
+| Headphones   |              5 |
++--------------+----------------+
+1 row in set (0.001 sec)
+
+
+# Customer Wise Spending
+MariaDB [ecommerce_db]> SELECT c.name, SUM(p.price * od.quantity) AS total_spent
+    -> FROM customers c
+    -> JOIN orders o ON c.customer_id = o.customer_id
+    -> JOIN order_details od ON o.order_id = od.order_id
+    -> JOIN products p ON od.product_id = p.product_id
+    -> GROUP BY c.name;
++--------+-------------+
+| name   | total_spent |
++--------+-------------+
+| Amit   |    70000.00 |
+| Anjali |    60000.00 |
+| Arjun  |     7600.00 |
+| Kavya  |    10000.00 |
+| Neha   |     1600.00 |
+| Priya  |    38000.00 |
+| Rahul  |   104000.00 |
+| Rohit  |    12000.00 |
+| Sneha  |    26000.00 |
+| Vikas  |     6000.00 |
++--------+-------------+
+10 rows in set (0.001 sec)
+
+MariaDB [ecommerce_db]>
